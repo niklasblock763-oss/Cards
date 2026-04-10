@@ -80,7 +80,8 @@ def get_price(name, cm_table, rate):
     return None
 
 def selling(TOKEN,CHAT_ID):
-    rate = get_rate()
+    rate = get_rate() 
+    rows = []
     with open("Card_List.csv", newline="", encoding="utf-8") as f:
         reader = list(csv.reader(f))
         reader = [row for row in reader if len(row) > 1 and row[1].strip()]

@@ -101,7 +101,7 @@ def selling(TOKEN,CHAT_ID):
                 print("Missing mapping:", name)
                 continue
     
-            if price > 2.00:
+            if price > 0.00:
                 rows.append((name, f"{price:.2f}€", str(anzahl)))
     
     if not rows:

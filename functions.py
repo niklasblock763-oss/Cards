@@ -81,6 +81,7 @@ def get_price(name, cm_table, rate):
 
 def selling(TOKEN,CHAT_ID):
     rate = get_rate()
+    text = "These Cards are more worth than 2€ today:\n\n"
     with open("Card_List.csv", newline="", encoding="utf-8") as f:
         reader = list(csv.reader(f))
         reader = [row for row in reader if len(row) > 1 and row[1].strip()]
@@ -107,8 +108,9 @@ def selling(TOKEN,CHAT_ID):
                 #name = get_name(name)
                 price =  round(price,2) 
                 price = f"{price:.2f}"
-                text = f"{name} -> {price}€ -> {anzahl}"
-                send_telegram(text,TOKEN,CHAT_ID)
+                text += f"{name} -> {price}€ -> {anzahl}\n"
+    text += f"\n\n That's it for today."
+    send_telegram(text,TOKEN,CHAT_ID)
 ######
 
 ### TELEGRAM ###

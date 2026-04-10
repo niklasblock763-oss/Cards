@@ -1,6 +1,7 @@
 import requests
 import csv
 import re
+import os
 
 
 ### COLLECTR ###

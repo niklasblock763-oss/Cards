@@ -116,7 +116,7 @@ def selling(TOKEN,CHAT_ID):
     text += "```\n"
     
     # header
-    text += f"{'Name':<{name_w}} | {'Price':>{price_w}} | {'Qty':>{qty_w}}\n"
+    text += f"{'Name':<{name_w}} | {'Price':>{price_w}} | {'N':>{qty_w}}\n"
     
     # separator line
     text += f"{'-'*name_w}-+-{'-'*price_w}-+-{'-'*qty_w}\n"

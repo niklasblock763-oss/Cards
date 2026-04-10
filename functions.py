@@ -81,36 +81,47 @@ def get_price(name, cm_table, rate):
 
 def selling(TOKEN,CHAT_ID):
     rate = get_rate()
-    text = "These Cards are more worth than 2€ today:\n\n"
     with open("Card_List.csv", newline="", encoding="utf-8") as f:
         reader = list(csv.reader(f))
         reader = [row for row in reader if len(row) > 1 and row[1].strip()]
-
+    
         cm_table = load_cardmarket_table("mapping.csv")
-
+    
         for row in reader:
-
             name = row[1]
             anzahl = int(row[2])
-
+    
             if anzahl == 0:
                 continue
-
+    
             price = get_price(name, cm_table, rate)
-
-
+    
             if price is None:
                 print("Missing mapping:", name)
                 continue
-
-
+    
             if price > 2.00:
-                #name = get_name(name)
-                price =  round(price,2) 
-                price = f"{price:.2f}"
-                text += f"{name} -> {price}€ -> {anzahl}\n"
-    text += f"\nThat's it for today."
-    send_telegram(text,TOKEN,CHAT_ID)
+                price = round(price, 2)
+                rows.append((name, f"{price:.2f}", str(anzahl)))
+    
+    if not rows:
+        send_telegram("No cards above 2€ today.", TOKEN, CHAT_ID)
+        return
+    
+    # compute column widths
+    name_w = max(len(r[0]) for r in rows)
+    price_w = max(len(r[1]) for r in rows)
+    qty_w = max(len(r[2]) for r in rows)
+    
+    text = "📈 Cards worth more than 2€ today:\n\n"
+    
+    for name, price, qty in rows:
+        text += f"{name:<{name_w}}  {price:>{price_w}}€  {qty:>{qty_w}}\n"
+    
+    text += "\nThat's it for today."
+    
+    send_telegram(text, TOKEN, CHAT_ID)
+
 ######
 
 ### TELEGRAM ###

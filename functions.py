@@ -102,23 +102,30 @@ def selling(TOKEN,CHAT_ID):
                 continue
     
             if price > 2.00:
-                price = round(price, 2)
-                rows.append((name, f"{price:.2f}", str(anzahl)))
+                rows.append((name, f"{price:.2f}€", str(anzahl)))
     
     if not rows:
         send_telegram("No cards above 2€ today.", TOKEN, CHAT_ID)
         return
     
-    # compute column widths
     name_w = max(len(r[0]) for r in rows)
     price_w = max(len(r[1]) for r in rows)
     qty_w = max(len(r[2]) for r in rows)
     
-    text = "📈 Cards worth more than 2€ today:\n\n"
+    text = "📈 Cards worth more than 2€ today\n\n"
+    text += "```\n"
     
+    # header
+    text += f"{'Name':<{name_w}} | {'Price':>{price_w}} | {'Qty':>{qty_w}}\n"
+    
+    # separator line
+    text += f"{'-'*name_w}-+-{'-'*price_w}-+-{'-'*qty_w}\n"
+    
+    # rows
     for name, price, qty in rows:
-        text += f"{name:<{name_w}}  {price:>{price_w}}€  {qty:>{qty_w}}\n"
+        text += f"{name:<{name_w}} | {price:>{price_w}} | {qty:>{qty_w}}\n"
     
+    text += "```\n"
     text += "\nThat's it for today."
     
     send_telegram(text, TOKEN, CHAT_ID)
@@ -131,7 +138,8 @@ def send_telegram(message,TOKEN,CHAT_ID):
     
     data = {
         "chat_id": CHAT_ID,
-        "text": message
+        "text": message,
+        "parse_mode": "Markdown"
     }
 
     requests.post(url, data=data)

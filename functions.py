@@ -3,7 +3,6 @@ import csv
 import re
 
 
-
 ### COLLECTR ###
 def get_price_collectr(card_url):
     headers = { "User-Agent": "Mozilla/5.0", "Accept": "application/json", "Origin": "https://app.getcollectr.com", "Referer": "https://app.getcollectr.com/" }
@@ -123,6 +122,6 @@ def send_telegram(message,TOKEN,CHAT_ID):
     requests.post(url, data=data)
 
 if __name__ == "__main__":
-    TOKEN = "..."
-    CHAT_ID = "..."
+    TOKEN = os.environ["TOKEN"]
+    CHAT_ID = os.environ["CHAT_ID"]
     selling(TOKEN,CHAT_ID)

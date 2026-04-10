@@ -14,7 +14,7 @@ def get_price_collectr(card_url):
         price = float(match.group(1)) 
         return price 
     
-def rate():
+def get_rate():
     url = "https://api-v2.getcollectr.com/data/exchange-rates"
     headers = { "User-Agent": "Mozilla/5.0", "Accept": "application/json", "Origin": "https://app.getcollectr.com", "Referer": "https://app.getcollectr.com/" }
     r = requests.get(url, headers=headers) 
@@ -80,7 +80,7 @@ def get_price(name, cm_table, rate):
     return None
 
 def selling(TOKEN,CHAT_ID):
-    rate = rate()
+    rate = get_rate()
     with open("Card_List.csv", newline="", encoding="utf-8") as f:
         reader = list(csv.reader(f))
         reader = [row for row in reader if len(row) > 1 and row[1].strip()]
@@ -103,7 +103,7 @@ def selling(TOKEN,CHAT_ID):
                 continue
 
 
-            if price > 0.00:
+            if price > 2.00:
                 #name = get_name(name)
                 price =  round(price,2) 
                 price = f"{price:.2f}"

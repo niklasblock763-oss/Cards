@@ -26,10 +26,10 @@ def get_rate():
     rate = None
     attempts = 0
 
-    while rate is None and attempts < 5:
+    while rate is None and attempts < 10:
         attempts += 1
         try:
-            r = requests.get(url, headers=headers, timeout=10)
+            r = requests.get(url, headers=headers, timeout=3)
             data = r.json()
             rate = float(next(i["rate"] for i in data["data"] if i["currency"] == "EUR"))
         except Exception:

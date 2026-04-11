@@ -85,7 +85,7 @@ def get_price(name, cm_table, rate):
         data = r.json()
 
         if data["cardmarket"]:
-            return data["cardmarket"][-1][1] / 100
+            return data["cardmarket"][-1][1] / 100, "LTS"
 
     # fallback
     if name in cm_table:
@@ -93,9 +93,9 @@ def get_price(name, cm_table, rate):
         url = f"https://app.getcollectr.com/explore/product/{cm_table[name]}"
         price = get_price_collectr(url) 
         
-        return round(price * rate, 2)
+        return round(price * rate, 2), "CTR"
 
-    return None
+    return None, None
 
 def selling(TOKEN,CHAT_ID):
     rate = get_rate() 
@@ -134,14 +134,14 @@ def selling(TOKEN,CHAT_ID):
     text += "```\n"
     
     # header
-    text += f"{'Name':<{name_w}} | {'Price':>{price_w}} | {'N':>{qty_w}}\n"
+    text += f"{'Name':<{name_w}} | {'Price':>{price_w}} | {'N':>{qty_w}} | Site\n"
     
     # separator line
-    text += f"{'-'*name_w}-+-{'-'*price_w}-+-{'-'*qty_w}\n"
+    text += f"{'-'*name_w}-+-{'-'*price_w}-+-{'-'*qty_w}-+----\n"
     
     # rows
-    for name, price, qty in rows:
-        text += f"{name:<{name_w}} | {price:>{price_w}} | {qty:>{qty_w}}\n"
+    for name, price, qty, site in rows:
+        text += f"{name:<{name_w}} | {price:>{price_w}} | {qty:>{qty_w}} | {site}\n"
     
     text += "```\n"
     text += "\nThat's it for today."

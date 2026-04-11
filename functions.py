@@ -120,7 +120,7 @@ def selling(TOKEN,CHAT_ID):
                 continue
     
             if price > 2.00:
-                rows.append((name, f"{price:.2f}€", str(anzahl)))
+                rows.append((name, f"{price:.2f}€", str(anzahl), site))
     
     if not rows:
         send_telegram("No cards above 2€ today.", TOKEN, CHAT_ID)

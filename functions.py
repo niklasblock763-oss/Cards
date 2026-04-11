@@ -113,7 +113,7 @@ def selling(TOKEN,CHAT_ID):
             if anzahl == 0:
                 continue
     
-            price = get_price(name, cm_table, rate)
+            price, site = get_price(name, cm_table, rate)
     
             if price is None:
                 print("Missing mapping:", name)

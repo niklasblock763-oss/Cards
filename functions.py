@@ -69,19 +69,24 @@ def get_price(name, cm_table, rate):
 
         r = requests.get(api_url)
         data = r.json()
-
-        if data["cardmarket"]:
+        
+        if "cardmarket" in data and data["cardmarket"]:
             return data["cardmarket"][-1][1] / 100, "LTS"
+        else:
+            raise PriceError(f"No Cardmarket price for: {name}")        
 
     # fallback
     if name in cm_table:
 
         url = f"https://app.getcollectr.com/explore/product/{cm_table[name]}"
         price = get_price_collectr(url) 
-        
+
+        if price is None:
+            raise PriceError(f"Collectr price not found for: {name}")
+            
         return round(price * rate, 2), "CTR"
 
-    return None, None
+    raise PriceError(f"Card ID + mapping not found for: {name}")
 
 def selling(TOKEN,CHAT_ID):
     rate = get_rate() 

@@ -15,30 +15,9 @@ def get_price_collectr(card_url):
         return price 
     
 def get_rate():
-    url = "https://api-v2.getcollectr.com/data/exchange-rates"
-    headers = {
-        "User-Agent": "Mozilla/5.0",
-        "Accept": "application/json",
-        "Origin": "https://app.getcollectr.com",
-        "Referer": "https://app.getcollectr.com/"
-    }
-
-    rate = None
-    attempts = 0
-
-    while rate is None and attempts < 15:
-        attempts += 1
-        try:
-            r = requests.get(url, headers=headers, timeout=5)
-            data = r.json()
-            rate = float(next(i["rate"] for i in data["data"] if i["currency"] == "EUR"))
-        except Exception:
-            print("Failed to get rate, retrying...")
-
-    if rate is None:
-        raise Exception("Could not fetch EUR exchange rate")
-
-    return rate
+    r = requests.get("https://api.exchangerate.host/latest?base=USD&symbols=EUR")
+    data = r.json()
+    return data["rates"]["EUR"]
 ######
 
 ### LIMITLESS ### 

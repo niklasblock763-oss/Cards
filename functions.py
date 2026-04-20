@@ -94,6 +94,7 @@ def get_price(name, cm_table, rate):
 def selling(TOKEN,CHAT_ID):
     rate = get_rate() 
     rows = []
+    miss = " "
     with open("Card_List.csv", newline="", encoding="utf-8") as f:
         reader = list(csv.reader(f))
         reader = [row for row in reader if len(row) > 1 and row[1].strip()]
@@ -109,7 +110,8 @@ def selling(TOKEN,CHAT_ID):
             try:
                 price, site = get_price(name, cm_table, rate)
             except PriceError as e:
-                print(f"Skipping {name}: {e}")
+                miss += f"{e}\n"
+
                 continue
     
             if price > 2.00:
@@ -137,6 +139,7 @@ def selling(TOKEN,CHAT_ID):
         text += f"{name:<{name_w}} | {price:>{price_w}} | {qty:>{qty_w}} | {site}\n"
     
     text += "```\n"
+    text += miss
     text += "\nThat's it for today."
     
     send_telegram(text, TOKEN, CHAT_ID)

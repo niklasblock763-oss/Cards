@@ -15,16 +15,14 @@ def get_price_collectr(card_url):
         return price 
     
 def get_rate():
-    url = "https://api.exchangerate.host/latest?base=USD&symbols=EUR"
+    url = "https://open.er-api.com/v6/latest/USD"
     r = requests.get(url)
-
-    if r.status_code != 200:
-        raise Exception(f"HTTP Error {r.status_code}: {r.text}")
+    r.raise_for_status()
 
     data = r.json()
 
-    if "rates" not in data:
-        raise Exception(f"Invalid API response: {data}")
+    if data["result"] != "success":
+        raise Exception(f"API error: {data}")
 
     return data["rates"]["EUR"]
 ######

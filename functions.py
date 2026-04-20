@@ -108,7 +108,8 @@ def selling(TOKEN,CHAT_ID):
                 continue
             try:
                 price, site = get_price(name, cm_table, rate)
-            except PriceError:
+            except PriceError as e:
+                print(f"Skipping {name}: {e}")
                 continue
     
             if price > 2.00:

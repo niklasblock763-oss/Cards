@@ -3,6 +3,9 @@ import csv
 import re
 import os
 
+class PriceError(Exception):
+    pass
+
 
 ### COLLECTR ###
 def get_price_collectr(card_url):
@@ -103,11 +106,9 @@ def selling(TOKEN,CHAT_ID):
     
             if anzahl == 0:
                 continue
-    
-            price, site = get_price(name, cm_table, rate)
-    
-            if price is None:
-                print("Missing mapping:", name)
+            try:
+                price, site = get_price(name, cm_table, rate)
+            except PriceError:
                 continue
     
             if price > 2.00:
